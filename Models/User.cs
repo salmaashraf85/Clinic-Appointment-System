@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ClinicAppointment_System.Models.Entittes;
+namespace ClinicAppointment_System.Models;
 
 public class User
 {
