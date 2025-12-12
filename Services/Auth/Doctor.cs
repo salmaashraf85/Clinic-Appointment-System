@@ -1,27 +1,21 @@
-using ClinicAppointment_System.Services.Auth;
+using ClinicAppointment_System.Models;
 
-namespace ClinicAppointment_System.Models;
-
-namespace ClinicAppointment_System.Services.Auth
+public class DoctorUser : IUser
 {
-    public class Doctor : IUser
+    public User RegisterUser(User data)
     {
-        public Doctor DoctorData { get; set; } = new Doctor();
-        public void RegisterUser()
+        return new Doctor
         {
-            return new Doctor
-            {
-                Id = Guid.NewGuid(),
-                FirstName = DoctorData.FirstName,
-                LastName = DoctorData.LastName,
-                Email = DoctorData.Email,
-                Password = DoctorData.Password,
-                Role = Roles.Doctor,
-                Specialties = DoctorData.Specialties,
-                Appointments = new List<Appointment>(),
-                CreatedAt = DateTime.Now
-            };
-
-        }
+            Id = Guid.NewGuid(),
+            FirstName = data.FirstName,
+            LastName = data.LastName,
+            Email = data.Email,
+            Password = data.Password,
+            CreatedAt = DateTime.Now,
+            Specialties = new List<string>(),
+            Appointments = new List<Appointment>()
+        };
     }
+
+
 }

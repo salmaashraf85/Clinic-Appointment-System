@@ -2,6 +2,6 @@ namespace ClinicAppointment_System.Models;
 
 public class Patient : User
 {
-    public List<Appointment> Appointments { get; set; }
+    public List<Appointment> Appointments;
 
 }

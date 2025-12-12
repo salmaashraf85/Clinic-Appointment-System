@@ -12,7 +12,5 @@ public class User
     [DataType(DataType.Password)]
     public string Password { get; set; }
 
-    public Roles Role { get; set; }
-
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 }

@@ -1,22 +1,15 @@
 using ClinicAppointment_System.Models;
 
-namespace ClinicAppointment_System.Services.Auth
+public class UserFactory
 {
-    public class UserFactory
+    public IUser CreateUser(Roles role)
     {
-        public IUser CreateUser(Models.Roles role)
+        return role switch
         {
-            switch (role)
-            {
-                case Models.Roles.Admin:
-                    return new Admin();
-                case Models.Roles.Doctor:
-                    return new Doctor();
-                case Models.Roles.Patient:
-                    return new Patient();
-                default:
-                    throw new ArgumentException("Invalid role");
-            }
-        }
+            Roles.Doctor => new DoctorUser(),
+            Roles.Patient => new PatientUser(),
+            Roles.Admin => new Admin(),
+            _ => throw new ArgumentException("Invalid role"),
+        };
     }
 }
