@@ -24,9 +24,9 @@ public abstract class DataSeed
         public static void SetCurrentUser(User user)
         {
             _currentUser = user;
-        }
+    }
 
-        public static void Logout()
+    public static void Logout()
         {
             _currentUser = null;
         }

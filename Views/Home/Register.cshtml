@@ -1,0 +1,95 @@
+@model ClinicAppointment_System.Models.User
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<div class="container mt-5">
+    <div class="card mx-auto shadow-sm" style="max-width: 500px; border-radius: 1rem;">
+        <div class="card-body p-4">
+            <h2 class="text-center fw-bold mb-2">Join Us</h2>
+            <p class="text-center text-muted mb-4">Create your account to get started</p>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+            }
+
+            <form asp-action="Register" method="post">
+                
+                <div class="mb-4 text-center">
+                    <label class="form-label fw-bold d-block mb-2">I am a:</label>
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="selectedRole" id="roleDoctor" value="Doctor" onchange="toggleSpecialization()" checked>
+                        <label class="btn btn-outline-primary" for="roleDoctor">Doctor 👨‍⚕️</label>
+
+                        <input type="radio" class="btn-check" name="selectedRole" id="rolePatient" value="Patient" onchange="toggleSpecialization()">
+                        <label class="btn btn-outline-success" for="rolePatient">Patient 🤒</label>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label asp-for="FirstName" class="form-label">First Name</label>
+                        <input asp-for="FirstName" class="form-control" placeholder="John" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <label asp-for="LastName" class="form-label">Last Name</label>
+                        <input asp-for="LastName" class="form-control" placeholder="Doe" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Email Address</label>
+                    <input asp-for="Email" class="form-control" type="email" placeholder="name@example.com" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">Password</label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Confirm Password</label>
+                    <input name="confirmPassword" class="form-control" type="password" required />
+                </div>
+
+                <div id="specializationDiv" class="mb-3" style="display:none;">
+                    <label class="form-label fw-bold">Specialization</label>
+                    <select name="specialization" class="form-select">
+                        <option value="" disabled selected>-- Select Specialization --</option>
+                        <option value="Diagnostician">Diagnostician</option>
+                        <option value="Nephrology">Nephrology</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Sign Up</button>
+            </form>
+
+            <div class="text-center mt-3">
+                Already have an account? <a asp-action="Login" class="text-decoration-none fw-bold">Login here</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleSpecialization() {
+        var isDoctor = document.getElementById("roleDoctor").checked;
+        var div = document.getElementById("specializationDiv");
+        
+        if (isDoctor) {
+            div.style.display = "block";
+        } else {
+            div.style.display = "none";
+        }
+    }
+    window.onload = toggleSpecialization;
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

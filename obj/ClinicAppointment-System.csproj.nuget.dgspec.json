@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/home/hadeer/Documents/Data/rebos/clinic_appointment_system/ClinicAppointment-System.csproj": {}
+    "C:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj": {}
   },
   "projects": {
-    "/home/hadeer/Documents/Data/rebos/clinic_appointment_system/ClinicAppointment-System.csproj": {
+    "C:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/hadeer/Documents/Data/rebos/clinic_appointment_system/ClinicAppointment-System.csproj",
+        "projectUniqueName": "C:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj",
         "projectName": "ClinicAppointment-System",
-        "projectPath": "/home/hadeer/Documents/Data/rebos/clinic_appointment_system/ClinicAppointment-System.csproj",
-        "packagesPath": "/home/hadeer/.nuget/packages/",
-        "outputPath": "/home/hadeer/Documents/Data/rebos/clinic_appointment_system/obj/",
+        "projectPath": "C:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/hadeer/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -78,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.101/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
