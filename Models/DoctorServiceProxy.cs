@@ -11,7 +11,7 @@ public class DoctorServiceProxy : IDoctorService
         _currentUser = currentUser;
     }
 
-    public void DeleteDoctor(int targetDoctorId)
+    public void DeleteDoctor(Guid targetDoctorId)
     {
         if (CanAccess(targetDoctorId))
         {
@@ -23,7 +23,7 @@ public class DoctorServiceProxy : IDoctorService
         }
     }
 
-    public void EditDoctor(int targetDoctorId, Doctor newDoctorData)
+    public void EditDoctor(Guid targetDoctorId, Doctor newDoctorData)
     {
         if (CanAccess(targetDoctorId))
         {
@@ -35,7 +35,7 @@ public class DoctorServiceProxy : IDoctorService
         }
     }
 
-    public bool CanAccess(int targetId)
+    public bool CanAccess(Guid targetId)
     {
         Console.WriteLine("targetId: " + targetId);
         Console.WriteLine("_currentUser.Id: " + _currentUser.Id);

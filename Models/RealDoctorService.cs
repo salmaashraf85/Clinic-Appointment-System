@@ -1,22 +1,22 @@
 namespace ClinicAppointment_System.Models.Entittes;
-
+using ClinicAppointment_System.Data;
 public class RealDoctorService : IDoctorService
 {
-    public void DeleteDoctor(int targetDoctorId)
+    public void DeleteDoctor(Guid targetDoctorId)
     {
-        var doctor = DoctorRepository.Doctors
+        var doctor = DataSeed.Doctors
             .FirstOrDefault(d => d.DoctorInfo.Id == targetDoctorId);
 
         if (doctor != null)
         {
-            DoctorRepository.Doctors.Remove(doctor);
+            DataSeed.Doctors.Remove(doctor);
             Console.WriteLine($"Doctor with ID {targetDoctorId} deleted successfully.");
         }
     }
 
-    public void EditDoctor(int targetDoctorId, Doctor newDoctorData)
+    public void EditDoctor(Guid targetDoctorId, Doctor newDoctorData)
     {
-        var existingDoctor = DoctorRepository.Doctors
+        var existingDoctor = DataSeed.Doctors
             .FirstOrDefault(d => d.DoctorInfo.Id == targetDoctorId);
 
         if (existingDoctor != null)

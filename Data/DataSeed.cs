@@ -1,7 +1,7 @@
 using ClinicAppointment_System.Models;
+using ClinicAppointment_System.Models.Entittes;
 
 namespace ClinicAppointment_System.Data;
-
 public abstract class DataSeed
 {
     
@@ -37,25 +37,44 @@ public abstract class DataSeed
             var doctor1 = new Doctor
             {
                 Id = Guid.NewGuid(),
-                FirstName = "Gregory",
-                LastName = "House",
-                Email = "house@clinic.com",
-                Password = "123", 
-                Specialties = new List<string> { "Diagnostician", "Nephrology" },
+                DoctorInfo=new User{
+                    Id = Guid.NewGuid(),
+                    FirstName = "Gregory",
+                    LastName = "House",
+                    Email = "gregory@clinic.com",
+                    Password = "123",
+                    Role = "Doctor",
+                    CreatedAt = DateTime.Now
+                },
+                DoctorSchedule= new List<DoctorSchedule>(),
+                DoctorSpecialist = new DoctorSpecialist
+                {
+                    Specialization = "Psychiatry",
+                    Department = "Psychiatry",
+                    YearsOfExperience = 10,
+                },
                 Appointments = new List<Appointment>(),
-                CreatedAt = DateTime.Now
             };
-
             var doctor2 = new Doctor
-            {
+             {
                 Id = Guid.NewGuid(),
-                FirstName = "Shaun",
-                LastName = "Murphy",
-                Email = "shaun@clinic.com",
-                Password = "123",
-                Specialties = new List<string> { "Surgery", "Autism Specialist" },
+                DoctorInfo=new User{
+                    Id = Guid.NewGuid(),
+                    FirstName = "Ali",
+                    LastName = "HAliouse",
+                    Email = "Ali@clinic.com",
+                    Password = "123",
+                    Role = "Doctor",
+                    CreatedAt = DateTime.Now
+                },
+                DoctorSchedule= new List<DoctorSchedule>(),
+                DoctorSpecialist = new DoctorSpecialist
+                {
+                    Specialization = "Psychiatry",
+                    Department = "Psychiatry",
+                    YearsOfExperience = 10,
+                },
                 Appointments = new List<Appointment>(),
-                CreatedAt = DateTime.Now
             };
 
             var patient1 = new Patient

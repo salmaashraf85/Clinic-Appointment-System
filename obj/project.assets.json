@@ -372,19 +372,19 @@
     ]
   },
   "packageFolders": {
-    "/home/hadeer/.nuget/packages/": {}
+    "C:\\Users\\Toka\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/hadeer/Documents/Data/rebos/clinic_appointment_system/ClinicAppointment-System.csproj",
+      "projectUniqueName": "D:\\universtyproject\\Design pattern\\Clinic-Appointment-System\\ClinicAppointment-System.csproj",
       "projectName": "ClinicAppointment-System",
-      "projectPath": "/home/hadeer/Documents/Data/rebos/clinic_appointment_system/ClinicAppointment-System.csproj",
-      "packagesPath": "/home/hadeer/.nuget/packages/",
-      "outputPath": "/home/hadeer/Documents/Data/rebos/clinic_appointment_system/obj/",
+      "projectPath": "D:\\universtyproject\\Design pattern\\Clinic-Appointment-System\\ClinicAppointment-System.csproj",
+      "packagesPath": "C:\\Users\\Toka\\.nuget\\packages\\",
+      "outputPath": "D:\\universtyproject\\Design pattern\\Clinic-Appointment-System\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/hadeer/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Toka\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -448,7 +448,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.101/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
