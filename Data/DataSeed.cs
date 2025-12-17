@@ -7,6 +7,7 @@ public abstract class DataSeed
 
     public static List<Doctor> Doctors { get; set; } = new List<Doctor>();
     public static List<Patient> Patients { get; set; } = new List<Patient>();
+    public static List<User> Admins { get; set; } = new List<User>();
     public static List<Appointment> Appointments { get; set; } = new List<Appointment>();
     private static User? _currentUser;
     private static Roles _currentUserRole;
@@ -21,9 +22,9 @@ public abstract class DataSeed
             return _currentUserRole;
         }
 
-        public static void SetCurrentUser(User user)
-        {
-            _currentUser = user;
+    public static void SetCurrentUser(User user)
+    {
+        _currentUser = user;
     }
 
     public static void Logout()
@@ -33,7 +34,21 @@ public abstract class DataSeed
 
         public static void Initialize()
         {
-            if (Doctors.Any() || Patients.Any()) return;
+        if (!Admins.Any())
+        {
+            var admin = new User
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "Admin",
+                LastName = "System",
+                Email = "admin@clinic.com", // الإيميل للدخول
+                Password = "123",           // الباسورد
+                                            // Role = Roles.Admin, // تأكدي إن كلاس User فيه خاصية Role
+                CreatedAt = DateTime.Now
+            };
+            Admins.Add(admin);
+        }
+        if (Doctors.Any() || Patients.Any()) return;
         var doctor1 = new Doctor
         {
             Id = Guid.NewGuid(),

@@ -19,6 +19,7 @@ public class HomeController : Controller
         return View();
     }
 
+
     [HttpGet]
     public IActionResult Login()
     {
@@ -26,16 +27,21 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login(string email, string password)
+    public IActionResult Login(LoginViewModel model)
     {
-        var doctor = DataSeed.Doctors.FirstOrDefault(d => d.Email == email && d.Password == password);
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var doctor = DataSeed.Doctors.FirstOrDefault(d => d.Email == model.Email && d.Password == model.Password);
         if (doctor != null)
         {
             DataSeed.SetCurrentUser(doctor);
             return RedirectToAction("Index");
         }
 
-        var patient = DataSeed.Patients.FirstOrDefault(p => p.Email == email && p.Password == password);
+        var patient = DataSeed.Patients.FirstOrDefault(p => p.Email == model.Email && p.Password == model.Password);
         if (patient != null)
         {
             DataSeed.SetCurrentUser(patient);
@@ -43,7 +49,7 @@ public class HomeController : Controller
         }
 
         ViewBag.Error = "Invalid Email or Password";
-        return View();
+        return View(model);
     }
 
 
@@ -54,51 +60,51 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult Register(User model, string confirmPassword, Roles selectedRole, string specialization)
+    public IActionResult Register(RegisterViewModel model)
     {
         if (!ModelState.IsValid)
         {
             return View(model);
         }
 
-        if (model.Password != confirmPassword)
-        {
-            ViewBag.Error = "Passwords do not match.";
-            return View(model);
-        }
-
         try
         {
-            // ============================================================
-            // هنا نستخدم الفاكتوري كما هو مطلوب في الـ Architecture
-            // ============================================================
+            if (!Enum.TryParse(model.Role, out Roles selectedRole))
+            {
+                ViewBag.Error = "Invalid Role Selected";
+                return View(model);
+            }
 
-            // 1. تجهيز الفاكتوري
             UserFactory factorySelector = new UserFactory();
-
-            // 2. الحصول على الاستراتيجية المناسبة (DoctorUser أو PatientUser)
-            // تأكد أن اسم الدالة في UserFactory هو CreateUser كما في كودك
             IUser factoryWrapper = factorySelector.CreateUser(selectedRole);
 
-            // 3. إنشاء الكائن (Create the Entity)
-            User newUser = factoryWrapper.RegisterUser(model);
-
-            // 4. الحفظ في الداتا سيد (Casting & Saving)
-            if (newUser is Doctor doctorEntity)
+            User initialData = new User
             {
-                // إضافة التخصص إذا كان دكتور
-                if (!string.IsNullOrEmpty(specialization))
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                Password = model.Password
+            };
+
+            User newUser = factoryWrapper.RegisterUser(initialData);
+
+            if (selectedRole == Roles.Admin)
+            {
+                DataSeed.Admins.Add(newUser);
+            }
+            else if (newUser is Doctor doctorEntity)
+            {
+                if (!string.IsNullOrEmpty(model.Specialization))
                 {
-                    doctorEntity.Specialties.Add(specialization);
+                    doctorEntity.Specialties.Add(model.Specialization);
                 }
                 DataSeed.Doctors.Add(doctorEntity);
-
-
             }
             else if (newUser is Patient patientEntity)
             {
                 DataSeed.Patients.Add(patientEntity);
             }
+
             DataSeed.SetCurrentUser(newUser);
 
             return RedirectToAction("Index");
@@ -109,12 +115,12 @@ public class HomeController : Controller
             return View(model);
         }
     }
-
     public IActionResult Logout()
     {
         DataSeed.Logout();
         return RedirectToAction("Login");
     }
+
 
     public IActionResult Privacy()
     {

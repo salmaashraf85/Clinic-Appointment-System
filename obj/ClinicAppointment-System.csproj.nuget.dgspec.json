@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj": {}
+    "c:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj": {}
   },
   "projects": {
-    "C:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj": {
+    "c:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj",
+        "projectUniqueName": "c:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj",
         "projectName": "ClinicAppointment-System",
-        "projectPath": "C:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj",
+        "projectPath": "c:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\ClinicAppointment-System.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\obj\\",
+        "outputPath": "c:\\Users\\HP\\Desktop\\Clinic-Appointment-System\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

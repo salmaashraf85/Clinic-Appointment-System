@@ -1,4 +1,5 @@
-@model ClinicAppointment_System.Models.User
+@model ClinicAppointment_System.Models.RegisterViewModel
+
 @{
     ViewData["Title"] = "Create Account";
 }
@@ -17,14 +18,21 @@
             <form asp-action="Register" method="post">
                 
                 <div class="mb-4 text-center">
-                    <label class="form-label fw-bold d-block mb-2">I am a:</label>
+                    <label asp-for="Role" class="form-label fw-bold d-block mb-2">I am a:</label>
                     <div class="btn-group" role="group">
-                        <input type="radio" class="btn-check" name="selectedRole" id="roleDoctor" value="Doctor" onchange="toggleSpecialization()" checked>
+                        <input type="radio" class="btn-check" asp-for="Role" id="roleDoctor" value="Doctor"
+                            onchange="toggleSpecialization()" checked>
                         <label class="btn btn-outline-primary" for="roleDoctor">Doctor 👨‍⚕️</label>
 
-                        <input type="radio" class="btn-check" name="selectedRole" id="rolePatient" value="Patient" onchange="toggleSpecialization()">
+                        <input type="radio" class="btn-check" asp-for="Role" id="rolePatient" value="Patient"
+                            onchange="toggleSpecialization()">
                         <label class="btn btn-outline-success" for="rolePatient">Patient 🤒</label>
+
+                        <input type="radio" class="btn-check" asp-for="Role" id="roleAdmin" value="Admin"
+                            onchange="toggleSpecialization()">
+                        <label class="btn btn-outline-warning" for="roleAdmin">Admin 🛡️</label>
                     </div>
+                    <span asp-validation-for="Role" class="text-danger d-block mt-1"></span>
                 </div>
 
                 <div class="row mb-3">
@@ -42,28 +50,32 @@
 
                 <div class="mb-3">
                     <label asp-for="Email" class="form-label">Email Address</label>
-                    <input asp-for="Email" class="form-control" type="email" placeholder="name@example.com" />
+                    <input asp-for="Email" class="form-control" placeholder="name@example.com" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label asp-for="Password" class="form-label">Password</label>
-                    <input asp-for="Password" class="form-control" type="password" />
+                    <input asp-for="Password" class="form-control" placeholder="********" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Confirm Password</label>
-                    <input name="confirmPassword" class="form-control" type="password" required />
+                    <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                    <input asp-for="ConfirmPassword" class="form-control" placeholder="********" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
 
-                <div id="specializationDiv" class="mb-3" style="display:none;">
-                    <label class="form-label fw-bold">Specialization</label>
-                    <select name="specialization" class="form-select">
+                <div id="specializationDiv" class="mb-3" style="display:block;">
+                    <label asp-for="Specialization" class="form-label fw-bold">Specialization</label>
+                    <select asp-for="Specialization" class="form-select">
                         <option value="" disabled selected>-- Select Specialization --</option>
                         <option value="Diagnostician">Diagnostician</option>
                         <option value="Nephrology">Nephrology</option>
+                        <option value="Surgery">Surgery</option>
+                        <option value="Psychiatry">Psychiatry</option>
                     </select>
+                    <span asp-validation-for="Specialization" class="text-danger"></span>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Sign Up</button>
@@ -85,6 +97,7 @@
             div.style.display = "block";
         } else {
             div.style.display = "none";
+            document.querySelector('select[name="Specialization"]').value = "";
         }
     }
     window.onload = toggleSpecialization;
