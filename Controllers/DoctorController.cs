@@ -44,7 +44,6 @@ public class DoctorController : Controller
         {
             domainSchedules.Add(new DoctorSchedule
             {
-                Day = item.Day,
                 StartTime = item.StartTime,
                 EndTime = item.EndTime
             });
@@ -131,7 +130,6 @@ public IActionResult Edit(Guid id)
 
         Schedules = doctor.DoctorSchedule.Select(s => new ScheduleInput
         {
-            Day = s.Day,
             StartTime = s.StartTime,
             EndTime = s.EndTime
         }).ToList()
@@ -187,7 +185,7 @@ public IActionResult Edit(Guid id, DoctorViewModel model)
             foreach (var s in model.Schedules)
             {
                 updatedSchedules.Add(new DoctorSchedule 
-                { Day = s.Day, StartTime = s.StartTime, EndTime = s.EndTime });
+                { StartTime = s.StartTime, EndTime = s.EndTime });
             }
         }
 

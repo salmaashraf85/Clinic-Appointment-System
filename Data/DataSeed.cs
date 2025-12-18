@@ -7,7 +7,7 @@ public abstract class DataSeed
     
         public static List<Doctor> Doctors { get; set; } = new List<Doctor>();
         public static List<Patient> Patients { get; set; } = new List<Patient>();
-        public static List<Appointment> Appointments { get; set; } = new List<Appointment>();
+        public static List<DoctorSchedule> Schedules { get; set; } = new List<DoctorSchedule>();
         private static User? _currentUser;
         private static Roles  _currentUserRole;
 
@@ -53,7 +53,6 @@ public abstract class DataSeed
                     Department = "Psychiatry",
                     YearsOfExperience = 10,
                 },
-                Appointments = new List<Appointment>(),
             };
             var doctor2 = new Doctor
              {
@@ -74,7 +73,6 @@ public abstract class DataSeed
                     Department = "Psychiatry",
                     YearsOfExperience = 10,
                 },
-                Appointments = new List<Appointment>(),
             };
 
             var patient1 = new Patient
@@ -84,7 +82,7 @@ public abstract class DataSeed
                 LastName = "Doe",
                 Email = "john@gmail.com",
                 Password = "123",
-                Appointments = new List<Appointment>(), 
+                Appointments = new List<DoctorSchedule>(), 
                 CreatedAt = DateTime.Now
             };
 
@@ -95,59 +93,53 @@ public abstract class DataSeed
                 LastName = "Connor",
                 Email = "sarah@gmail.com",
                 Password = "123",
-                Appointments = new List<Appointment>(),
+                Appointments = new List<DoctorSchedule>(),
                 CreatedAt = DateTime.Now
             };
 
             // --- Seed Appointments ---
             // Creating slots for Doctor 1 (Gregory House)
-            var app1 = new Appointment
+            var app1 = new DoctorSchedule
             {
                 Id = Guid.NewGuid(),
                 DoctorId = doctor1.Id,
-                Doctor = doctor1,
-                StartTime = DateTime.Now.AddDays(1).Date.AddHours(9), 
-                EndTime = DateTime.Now.AddDays(1).Date.AddHours(10),  
-                IsBooked = false
+                StartTime = new DateTime(2025, 12, 19, 14, 30, 0),
+                EndTime = new  DateTime(2025, 12, 19, 15, 30, 0),
             };
 
-            var app2 = new Appointment
+            var app2 = new DoctorSchedule
             {
                 Id = Guid.NewGuid(),
                 DoctorId = doctor1.Id,
-                Doctor = doctor1,
-                StartTime = DateTime.Now.AddDays(1).Date.AddHours(10), 
-                EndTime = DateTime.Now.AddDays(1).Date.AddHours(11),
-                IsBooked = true // Simulating a booked slot
+                StartTime = new DateTime(2025, 12, 25, 14, 30, 0), 
+                EndTime = new  DateTime(2025, 12, 25, 15,30,0), 
             };
 
-            var app3 = new Appointment
+            var app3 = new DoctorSchedule
             {
                 Id = Guid.NewGuid(),
                 DoctorId = doctor2.Id,
-                Doctor = doctor2,
-                StartTime = DateTime.Now.AddDays(2).Date.AddHours(14), 
-                EndTime = DateTime.Now.AddDays(2).Date.AddHours(15),
-                IsBooked = false
+                StartTime = new DateTime(2025, 12, 20, 14, 30, 0),
+                EndTime = new  DateTime(2025, 12, 20, 15, 30, 0), 
             };
 
             // --- Linking Data ---
+            patient1.Appointments.Add(app1);
+            app1.IsAavailable = false;
+            app1.AppointmentSate = AppointmentSate.Pending;
+            app1.PatientId=patient1.Id;
+            Schedules.Add(app1);
+            Schedules.Add(app2);
+            Schedules.Add(app3);
+
+            doctor1.DoctorSchedule.Add(app1);
+            doctor1.DoctorSchedule.Add(app2);
+            doctor2.DoctorSchedule.Add(app3);
             
-            Appointments.Add(app1);
-            Appointments.Add(app2);
-            Appointments.Add(app3);
-
-            doctor1.Appointments.Add(app1);
-            doctor1.Appointments.Add(app2);
-            doctor2.Appointments.Add(app3);
-
-            if (app2.IsBooked)
-            {
-                patient1.Appointments.Add(app2);
-            }
 
             Doctors.Add(doctor1);
             Doctors.Add(doctor2);
+            
             Patients.Add(patient1);
             Patients.Add(patient2);
         }
