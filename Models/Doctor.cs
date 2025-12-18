@@ -2,9 +2,8 @@ namespace ClinicAppointment_System.Models;
 using ClinicAppointment_System.Models.Entittes;
 
 public class Doctor : User
-{
-    public List<Appointment> Appointments { get; set; }
-     public User DoctorInfo { get; set; }
+{ 
+    public User DoctorInfo { get; set; }
      public List<DoctorSchedule> DoctorSchedule { get; set; }
      public DoctorSpecialist DoctorSpecialist { get; set; }
       public override string ToString(){
