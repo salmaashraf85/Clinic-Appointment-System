@@ -18,34 +18,34 @@
         <div class="col-md-6">
             <h4>Personal Info</h4>
             <div class="form-group">
-                <label>Name</label>
+                <label asp-for="FirstName"></label>
                 <input asp-for="FirstName" class="form-control" />
             </div>
             <div class="form-group">
-                <label>Email</label>
+                <label asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" />
             </div>
              <div class="form-group">
-                <label>LastName</label>
+                <label asp-for="LastName"></label>
                 <input asp-for="LastName" class="form-control" />
             </div>
         </div>
         <div class="col-md-6">
             <h4>Specialist Info</h4>
             <div class="form-group">
-                <label>Specialization</label>
+                <label asp-for="Specialization"></label>
                 <input asp-for="Specialization" class="form-control" />
             </div>
             <div class="form-group">
-                <label>Department</label>
+                <label asp-for="Department"></label>
                 <input asp-for="Department" class="form-control" />
             </div>
             <div class="form-group">
-                <label>Role</label>
+                <label asp-for="Role"></label>
                 <input asp-for="Role" class="form-control" />
             </div>
             <div class="form-group">
-                <label>Experience</label>
+                <label asp-for="YearsOfExperience">Experience</label>
                 <input asp-for="YearsOfExperience" class="form-control" />
             </div>
         </div>
@@ -53,13 +53,12 @@
 
     <hr />
 
-    <h4>Work Schedules</h4>
+    <h4>Your Appointments</h4>
     <table class="table" id="scheduleTable">
         <thead>
             <tr>
-                <th>Day</th>
-                <th>Start Time</th>
-                <th>End Time</th>
+                <th>Start Date & Time</th>
+                <th>End Date & Time</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -68,21 +67,15 @@
             {
                 <tr>
                     <td>
-                        <select name="Schedules[@i].Day" class="form-control" asp-for="@Model.Schedules[i].Day">
-                            <option value="Saturday">Saturday</option>
-                            <option value="Sunday">Sunday</option>
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                        </select>
+                        @* IMPORTANT: Format must be yyyy-MM-ddTHH:mm for datetime-local to work *@
+                        <input type="datetime-local" name="Schedules[@i].StartTime" 
+                               class="form-control" 
+                               value="@Model.Schedules[i].StartTime.ToString("yyyy-MM-ddTHH:mm")" />
                     </td>
                     <td>
-                        <input type="time" name="Schedules[@i].StartTime" class="form-control" value="@Model.Schedules[i].StartTime" />
-                    </td>
-                    <td>
-                        <input type="time" name="Schedules[@i].EndTime" class="form-control" value="@Model.Schedules[i].EndTime" />
+                        <input type="datetime-local" name="Schedules[@i].EndTime" 
+                               class="form-control" 
+                               value="@Model.Schedules[i].EndTime.ToString("yyyy-MM-ddTHH:mm")" />
                     </td>
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button>
@@ -97,19 +90,10 @@
     <hr />
     <button type="submit" class="btn btn-warning btn-lg">Update Doctor</button>
     <a asp-action="Index" class="btn btn-link">Cancel</a>
-    @if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Error!</strong> @TempData["ErrorMessage"]
-        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-}
 </form>
 
 <script>
-
+    // Initialize index based on existing rows
     let index = @Model.Schedules.Count;
 
     function addScheduleRow() {
@@ -118,21 +102,10 @@
         const row = `
             <tr>
                 <td>
-                    <select name="Schedules[${index}].Day" class="form-control">
-                        <option>Saturday</option>
-                        <option>Sunday</option>
-                        <option>Monday</option>
-                        <option>Tuesday</option>
-                        <option>Wednesday</option>
-                        <option>Thursday</option>
-                        <option>Friday</option>
-                    </select>
+                    <input type="datetime-local" name="Schedules[${index}].StartTime" class="form-control" required />
                 </td>
                 <td>
-                    <input type="time" name="Schedules[${index}].StartTime" class="form-control" />
-                </td>
-                <td>
-                    <input type="time" name="Schedules[${index}].EndTime" class="form-control" />
+                    <input type="datetime-local" name="Schedules[${index}].EndTime" class="form-control" required />
                 </td>
                 <td>
                     <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button>
@@ -146,5 +119,19 @@
     
     function removeRow(btn) {
         btn.closest('tr').remove();
+        reIndexRows();
+    }
+
+    function reIndexRows() {
+        const rows = document.querySelectorAll("#scheduleBody tr");
+        rows.forEach((row, i) => {
+            row.querySelectorAll("input").forEach(input => {
+                const name = input.getAttribute("name");
+                if (name) {
+                    input.setAttribute("name", name.replace(/\[\d+\]/, `[${i}]`));
+                }
+            });
+        });
+        index = rows.length;
     }
 </script>

@@ -15,7 +15,7 @@ public class DoctorBuilder : IdoctorBuilder
    public IdoctorBuilder BuildSchedule(List<DoctorSchedule> schedules){
         _doctor.DoctorSchedule = schedules;
         return this;
-    }
+   }
     public Doctor Build(){
         return _doctor;
     }

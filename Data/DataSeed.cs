@@ -103,28 +103,31 @@ public abstract class DataSeed
             {
                 Id = Guid.NewGuid(),
                 DoctorId = doctor1.Id,
-                StartTime = new TimeSpan(9, 0, 0), 
-                EndTime = new  TimeSpan(10, 0, 0), 
+                StartTime = new DateTime(2025, 12, 19, 14, 30, 0),
+                EndTime = new  DateTime(2025, 12, 19, 15, 30, 0),
             };
 
             var app2 = new DoctorSchedule
             {
                 Id = Guid.NewGuid(),
                 DoctorId = doctor1.Id,
-                StartTime = new TimeSpan(10, 0, 0), 
-                EndTime = new  TimeSpan(11, 0, 0), 
+                StartTime = new DateTime(2025, 12, 25, 14, 30, 0), 
+                EndTime = new  DateTime(2025, 12, 25, 15,30,0), 
             };
 
             var app3 = new DoctorSchedule
             {
                 Id = Guid.NewGuid(),
                 DoctorId = doctor2.Id,
-                StartTime = new TimeSpan(11, 0, 0), 
-                EndTime = new  TimeSpan(12, 0, 0), 
+                StartTime = new DateTime(2025, 12, 20, 14, 30, 0),
+                EndTime = new  DateTime(2025, 12, 20, 15, 30, 0), 
             };
 
             // --- Linking Data ---
-            
+            patient1.Appointments.Add(app1);
+            app1.IsAavailable = false;
+            app1.AppointmentSate = AppointmentSate.Pending;
+            app1.PatientId=patient1.Id;
             Schedules.Add(app1);
             Schedules.Add(app2);
             Schedules.Add(app3);
@@ -132,14 +135,11 @@ public abstract class DataSeed
             doctor1.DoctorSchedule.Add(app1);
             doctor1.DoctorSchedule.Add(app2);
             doctor2.DoctorSchedule.Add(app3);
-
-            if (app2.IsAavailable)
-            {
-                patient1.Appointments.Add(app2);
-            }
+            
 
             Doctors.Add(doctor1);
             Doctors.Add(doctor2);
+            
             Patients.Add(patient1);
             Patients.Add(patient2);
         }

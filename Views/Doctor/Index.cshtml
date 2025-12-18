@@ -39,7 +39,10 @@
                 <td>
                     @foreach(var schedule in doctor.DoctorSchedule)
                     {
-                        <span class="badge badge-info text-black">@schedule.Day</span>
+                        <span class="badge badge-info text-black">
+                            @schedule.StartTime.ToString("dddd, MMM dd, yyyy - hh:mm tt") - @schedule.EndTime.ToString("hh:mm tt")
+                        </span>
+                        <br/>
                     }
                 </td>
                 

@@ -41,62 +41,70 @@
 
     <hr />
 
-<h4>Work Schedules</h4>
+<h4>Enter Your Time Slots</h4>
     
     <table class="table" id="scheduleTable">
         <thead>
-            <tr>
-                <th>Day</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>Date & Time (Start)</th>
+            <th>Date & Time (End)</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody id="scheduleBody">
-            </tbody>
+        </tbody>
     </table>
 
-    <button type="button" class="btn btn-secondary" onclick="addScheduleRow()">+ Add Shift</button>
-    
+    <button type="button" class="btn btn-secondary" onclick="addScheduleRow()">+ Add Shift</button>    
     <hr />
 
 <script>
     let index = 0;
 
-    function addScheduleRow() {
+
+    function addScheduleRow(startVal = "", endVal = "") {
         const tableBody = document.getElementById("scheduleBody");
+
         const row = `
-            <tr>
-                <td>
-                    <select name="Schedules[${index}].Day" class="form-control">
-                        <option>Saturday</option>
-                        <option>Sunday</option>
-                        <option>Monday</option>
-                        <option>Tuesday</option>
-                        <option>Wednesday</option>
-                        <option>Thursday</option>
-                        <option>Friday</option>
-                    </select>
-                </td>
-                <td>
-                    <input type="time" name="Schedules[${index}].StartTime" class="form-control" />
-                </td>
-                <td>
-                    <input type="time" name="Schedules[${index}].EndTime" class="form-control" />
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button>
-                </td>
-            </tr>
-        `;
+        <tr>
+            <td>
+                <input type="datetime-local" name="Schedules[${index}].StartTime" 
+                       value="${startVal}" class="form-control" required />
+            </td>
+            <td>
+                <input type="datetime-local" name="Schedules[${index}].EndTime" 
+                       value="${endVal}" class="form-control" required />
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button>
+            </td>
+        </tr>
+    `;
 
         tableBody.insertAdjacentHTML('beforeend', row);
-        
         index++;
     }
-    
+
+    // Logic to load existing data from the Model
+    document.addEventListener("DOMContentLoaded", function() {
+        @if (Model.Schedules != null && Model.Schedules.Any())
+        {
+        foreach (var item in Model.Schedules)
+        {
+        var start = item.StartTime.ToString("yyyy-MM-ddTHH:mm");
+        var end = item.EndTime.ToString("yyyy-MM-ddTHH:mm");
+
+        @:addScheduleRow("@start", "@end");
+        }
+        }
+        else
+        {
+        // Add one empty row if no data exists
+        @:addScheduleRow();
+        }
+    });
     function removeRow(btn) {
-        // حذف السطر
+
         var row = btn.closest('tr');
         row.remove();
        

@@ -4,5 +4,6 @@ public enum AppointmentSate
 {
     Canceled,
     Approved,
-    Pending
+    Pending,
+    Free,
 }

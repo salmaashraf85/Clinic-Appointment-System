@@ -1,4 +1,6 @@
 using ClinicAppointment_System.Data;
+using ClinicAppointment_System.Models.Commands;
+using ClinicAppointment_System.Models.Schedule;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,8 @@ builder.Services.AddControllersWithViews();
 
 // builder.Services.AddDbContext<AppDbContext>(options =>
     // options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IScheduleService, ScheduleService>();
 
 var app = builder.Build();
 
@@ -28,5 +32,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+DataSeed.Initialize();
 app.Run();
