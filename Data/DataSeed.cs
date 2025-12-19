@@ -71,7 +71,15 @@ public abstract class DataSeed
                     Role = "Doctor",
                     CreatedAt = DateTime.Now
                 },
-                DoctorSchedule= new List<DoctorSchedule>(),
+                DoctorSchedule= new List<DoctorSchedule>([
+                    new DoctorSchedule{
+                        StartTime = new DateTime(2023, 1, 1, 10, 0, 0),
+                        EndTime = new DateTime(2023, 1, 1, 11, 0, 0),
+                        Day="Monday",
+                        Id = Guid.NewGuid(),
+                       
+                    },]
+                ),
                 DoctorSpecialist = new DoctorSpecialist
                 {
                     Specialization = "Psychiatry",

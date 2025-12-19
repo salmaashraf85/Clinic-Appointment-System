@@ -75,7 +75,7 @@ public class DoctorController : Controller
     }
     public IActionResult Delete(Guid id)
     {
-      var loggedInUser = new User { Id = id, Role = "Admin", FirstName = "Dr. Current" };
+      var loggedInUser = DataSeed.GetCurrentUser();
       try{
       IDoctorService proxy = new DoctorServiceProxy(loggedInUser);
       proxy.DeleteDoctor(id);
@@ -107,7 +107,7 @@ public class DoctorController : Controller
 public IActionResult Edit(Guid id)
 {
     var doctor = DataSeed.Doctors.FirstOrDefault(d => d.DoctorInfo.Id == id);
-     var loggedInUser = new User {Id = id, Role = "Admin" }; 
+     var loggedInUser = DataSeed.GetCurrentUser(); 
 
     if (doctor == null) return NotFound();
     try
