@@ -21,20 +21,21 @@ public abstract class DataSeed
             return _currentUserRole;
         }
 
-        public static void SetCurrentUser(User user)
-        {
-            _currentUser = user;
-        }
+    public static void SetCurrentUser(User user)
+    {
+        _currentUser = user;
+    }
 
-        public static void Logout()
+    public static void Logout()
         {
             _currentUser = null;
         }
 
         public static void Initialize()
         {
-            if (Doctors.Any() || Patients.Any()) return;
-            var doctor1 = new Doctor
+        if (!Admins.Any())
+        {
+            var admin = new User
             {
                 Id = Guid.NewGuid(),
                 DoctorInfo=new User{
@@ -75,22 +76,22 @@ public abstract class DataSeed
                 },
             };
 
-            var patient1 = new Patient
-            {
-                Id = Guid.NewGuid(),
-                FirstName = "John",
-                LastName = "Doe",
+        var patient1 = new Patient
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "John",
+            LastName = "Doe",
                 Email = "john@gmail.com",
                 Password = "123",
                 Appointments = new List<DoctorSchedule>(), 
                 CreatedAt = DateTime.Now
             };
 
-            var patient2 = new Patient
-            {
-                Id = Guid.NewGuid(),
-                FirstName = "Sarah",
-                LastName = "Connor",
+        var patient2 = new Patient
+        {
+            Id = Guid.NewGuid(),
+            FirstName = "Sarah",
+            LastName = "Connor",
                 Email = "sarah@gmail.com",
                 Password = "123",
                 Appointments = new List<DoctorSchedule>(),

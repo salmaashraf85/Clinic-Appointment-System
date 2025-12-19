@@ -5,5 +5,5 @@ public enum Roles
     Doctor,
     Admin,
     Patient
-    
+
 }
