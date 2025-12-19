@@ -1,0 +1,22 @@
+﻿ @model AppointmentViewModel
+
+ <h3>Appointment Booked Successfully</h3>
+
+<p><b>Doctor:</b> @Model.DoctorName</p>
+<p><b>From:</b> @Model.StartTime</p>
+<p><b>To:</b> @Model.EndTime</p>
+ <p>
+     <b>Status:</b>
+     <span class="badge bg-warning text-dark">
+         Pending Admin Approval
+     </span>
+ </p>
+
+<hr />
+
+<a asp-controller="PatientAppointment"
+   asp-action="Pay"
+   asp-route-appointmentId="@Model.AppointmentId"
+   class="btn btn-success">
+    Pay Now
+</a>

@@ -1,0 +1,41 @@
+﻿@model List<ClinicAppointment_System.Models.Entittes.DoctorSchedule>
+
+<h2>My Appointments</h2>
+
+@if (!Model.Any())
+{
+    <p>You have no appointments yet.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Doctor</th>
+            <th>Day</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            var doctor = ClinicAppointment_System.Data.DataSeed.Doctors
+                .First(d => d.Id == item.DoctorId);
+
+            <tr>
+                <td>@doctor.DoctorInfo.FirstName @doctor.DoctorInfo.LastName</td>
+                <td>@item.StartTime.DayOfWeek</td>
+                <td>@item.StartTime</td>
+                <td>@item.EndTime</td>
+                <td>
+                    <span class="badge bg-warning text-dark">
+                        @item.AppointmentSate
+                    </span>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
