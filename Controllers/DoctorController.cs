@@ -244,6 +244,7 @@ public IActionResult Profile(Guid id)
 }
     public IActionResult Index()
     {
+      
         DataSeed.Initialize();
         Console.WriteLine("DataSeed.Doctors", DataSeed.Doctors);
       
