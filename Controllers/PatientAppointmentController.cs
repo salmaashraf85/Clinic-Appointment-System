@@ -1,4 +1,5 @@
 ﻿using ClinicAppointment_System.Data;
+using ClinicAppointment_System.enums;
 
 namespace ClinicAppointment_System.Controllers;
 
@@ -78,7 +79,39 @@ public class PatientAppointmentController : Controller
 
         return View(model);
     }
-    
+
+    public IActionResult Pay(Guid appointmentId,  string paymentMethod)
+    {
+        var appointment = AppointmentScheduler.Instance
+            .GetAll()
+            .FirstOrDefault(a => a.Id == appointmentId);
+
+        var currentUser = DataSeed.GetCurrentUser();
+        var patient = DataSeed.Patients
+            .FirstOrDefault(p => p.Email == currentUser.Email);
+
+        if (patient == null)
+            return Unauthorized();
+        
+        if (appointment == null ) return BadRequest();
+        var result = false;
+        
+        if(paymentMethod=="Wallet")
+            result = _service.PayAppointment(appointmentId,patient,PaymentType.Wallet);
+        else if (paymentMethod == "Cach")
+            result = _service.PayAppointment(appointmentId, patient, PaymentType.Wallet);
+        
+        if (result)
+        {
+            ViewData["Message"] = "Your appointment has been Confirmed Successfully";
+        }
+        else
+        {
+            ViewData["Message"] = "Failed to Confirm Appointment";
+        }
+
+        return RedirectToAction("MyAppointments");
+    }
     
     public IActionResult MyAppointments()
     {

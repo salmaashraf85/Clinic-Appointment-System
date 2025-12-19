@@ -1,5 +1,6 @@
 using ClinicAppointment_System.Models;
 using ClinicAppointment_System.Models.Entittes;
+using ClinicAppointment_System.Models.Payment;
 
 namespace ClinicAppointment_System.Data;
 public abstract class DataSeed
@@ -8,6 +9,7 @@ public abstract class DataSeed
         public static List<Doctor> Doctors { get; set; } = new List<Doctor>();
         public static List<Patient> Patients { get; set; } = new List<Patient>();
         public static List<User> Admins { get; set; } = new List<User>();
+        public static List<Invoice> Invoices { get; set; } = new List<Invoice>();
         public static List<DoctorSchedule> Schedules { get; set; } = new List<DoctorSchedule>();
         private static User? _currentUser;
         private static Roles  _currentUserRole;
