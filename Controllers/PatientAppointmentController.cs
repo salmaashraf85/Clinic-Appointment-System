@@ -42,9 +42,14 @@ public class PatientAppointmentController : Controller
     {
         try
         {
-            var patient = DataSeed.Patients.First(); // simulate login
-            var appointment = _service.BookAppointment(appointmentId, patient.Id);
+            var currentUser = DataSeed.GetCurrentUser();
+            var patient = DataSeed.Patients
+                .FirstOrDefault(p => p.Email == currentUser.Email);
 
+            if (patient == null)
+                return Unauthorized();
+
+            var appointment = _service.BookAppointment(appointmentId, patient.Id);
             return RedirectToAction("Confirmation", new { id = appointment.Id });
         }
         catch (Exception ex)
@@ -79,7 +84,7 @@ public class PatientAppointmentController : Controller
     {
         var currentUser = DataSeed.GetCurrentUser();
         var patient = DataSeed.Patients
-            .FirstOrDefault(p => p.Email == "sarah@gmail.com");
+            .FirstOrDefault(p => p.Email ==currentUser.Email);
 
         if (patient == null)
             return Unauthorized();

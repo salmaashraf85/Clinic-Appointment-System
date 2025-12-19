@@ -88,15 +88,16 @@ public class HomeController : Controller
 
             User newUser = factoryWrapper.RegisterUser(initialData);
 
-            if (selectedRole == Roles.Admin)
-            {
-                DataSeed.Admins.Add(newUser);
-            }
-            else if (newUser is Doctor doctorEntity)
+            // if (selectedRole == Roles.Admin)
+            // {
+            //     DataSeed.Admins.Add(newUser);
+            // }
+            // else 
+            if (newUser is Doctor doctorEntity)
             {
                 if (!string.IsNullOrEmpty(model.Specialization))
                 {
-                    doctorEntity.Specialties.Add(model.Specialization);
+                    doctorEntity.DoctorSpecialist.Specialization=model.Specialization;
                 }
                 DataSeed.Doctors.Add(doctorEntity);
             }

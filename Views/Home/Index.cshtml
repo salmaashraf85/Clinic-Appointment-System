@@ -1,8 +1,71 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h1 class="fw-bold mb-3">
+                Welcome to <span class="text-primary">Clinic Appointment System</span>
+            </h1>
+
+            <p class="lead text-muted">
+                Book your medical appointments easily, quickly, and securely with our online system.
+            </p>
+
+            <div class="mt-4">
+                
+                <a asp-controller="Home" asp-action="Login"
+                   class="btn btn-outline-secondary btn-lg">
+                    Get Started
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-6 text-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/2966/2966488.png"
+                 alt="Clinic"
+                 class="img-fluid"
+                 style="max-height: 350px;" />
+        </div>
+    </div>
+</div>
+
+<hr class="my-5" />
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">👨‍⚕️ Qualified Doctors</h5>
+                    <p class="card-text text-muted">
+                        Choose from experienced and certified medical professionals.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">⏰ Easy Scheduling</h5>
+                    <p class="card-text text-muted">
+                        Flexible appointment times that fit your schedule.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">🔒 Secure System</h5>
+                    <p class="card-text text-muted">
+                        Your medical data is safe and protected.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
