@@ -12,8 +12,8 @@ public class DoctorUser : IUser
             Email = data.Email,
             Password = data.Password,
             CreatedAt = DateTime.Now,
-            Specialties = new List<string>(),
-            Appointments = new List<Appointment>()
+            // Specialties = new List<string>(),
+            // Appointments = new List<Appointment>()
         };
     }
 

@@ -12,7 +12,7 @@ public class PatientUser : IUser
             Email = data.Email,
             Password = data.Password,
             CreatedAt = DateTime.Now,
-            Appointments = new List<Appointment>()
+            // Appointments = new List<Appointment>()
         };
     }
 
