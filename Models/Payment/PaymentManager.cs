@@ -24,7 +24,7 @@ public class PaymentManager
         }
         else if(paymentType == PaymentType.Wallet)
         {
-            _strategy = new CashPaymentTypeStrategy();   throw new ArgumentException("Invalid payment type");
+            _strategy = new CashPaymentTypeStrategy(); 
             
         }
         bool success = _strategy.ProcessPayment(invoice, patient);
