@@ -88,7 +88,8 @@ public abstract class DataSeed
                 Email = "john@gmail.com",
                 Password = "123",
                 Appointments = new List<DoctorSchedule>(), 
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                Wallet = 500
             };
 
             var patient2 = new Patient
@@ -99,7 +100,8 @@ public abstract class DataSeed
                 Email = "sarah@gmail.com",
                 Password = "123",
                 Appointments = new List<DoctorSchedule>(),
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.Now,
+                Wallet = 1000
                 
             };
             var admin = new User()
@@ -110,7 +112,7 @@ public abstract class DataSeed
                 Email = "admin@gmail.com",
                 Password = "123",
                 CreatedAt = DateTime.Now,
-                Role = "Admin",
+                Role = "Admin"
             };
 
             // --- Seed Appointments ---

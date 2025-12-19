@@ -98,16 +98,16 @@ public class PatientAppointmentController : Controller
         
         if(paymentMethod=="Wallet")
             result = _service.PayAppointment(appointmentId,patient,PaymentType.Wallet);
-        else if (paymentMethod == "Cach")
-            result = _service.PayAppointment(appointmentId, patient, PaymentType.Wallet);
+        else if (paymentMethod == "Cash")
+            result = _service.PayAppointment(appointmentId, patient, PaymentType.Cash);
         
         if (result)
         {
-            ViewData["Message"] = "Your appointment has been Confirmed Successfully";
+            TempData["Success"] = "Your appointment has been Confirmed Successfully";
         }
         else
         {
-            ViewData["Message"] = "Failed to Confirm Appointment";
+            TempData["Alert"] = "Failed to Confirm Appointment";
         }
 
         return RedirectToAction("MyAppointments");
