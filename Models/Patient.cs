@@ -5,5 +5,5 @@ namespace ClinicAppointment_System.Models;
 public class Patient : User
 {
     public List<DoctorSchedule> Appointments;
-
+    public decimal Wallet { get; set; }
 }

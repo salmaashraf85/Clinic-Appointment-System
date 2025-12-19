@@ -37,6 +37,7 @@ public abstract class DataSeed
             var doctor1 = new Doctor
             {
                 Id = Guid.NewGuid(),
+                Price = 100,
                 DoctorInfo=new User{
                     Id = Guid.NewGuid(),
                     FirstName = "Gregory",
@@ -55,8 +56,9 @@ public abstract class DataSeed
                 },
             };
             var doctor2 = new Doctor
-             {
+            {
                 Id = Guid.NewGuid(),
+                Price = 50,
                 DoctorInfo=new User{
                     Id = Guid.NewGuid(),
                     FirstName = "Ali",
