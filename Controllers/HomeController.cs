@@ -47,7 +47,12 @@ public class HomeController : Controller
             DataSeed.SetCurrentUser(patient);
             return RedirectToAction("Index");
         }
-
+        var admin = DataSeed.Admins.FirstOrDefault(p => p.Email == model.Email && p.Password == model.Password);
+        if (admin != null)
+        {
+            DataSeed.SetCurrentUser(admin);
+            return RedirectToAction("Index");
+        }
         ViewBag.Error = "Invalid Email or Password";
         return View(model);
     }
