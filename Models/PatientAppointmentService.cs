@@ -1,4 +1,6 @@
-﻿using ClinicAppointment_System.Models.Entittes;
+﻿using ClinicAppointment_System.enums;
+using ClinicAppointment_System.Models.Entittes;
+using ClinicAppointment_System.Models.Payment;
 
 namespace ClinicAppointment_System.Models;
 
@@ -51,5 +53,12 @@ public class PatientAppointmentService : IPatientAppointmentService
         appointment.AppointmentSate = AppointmentSate.Pending;
 
         return appointment;
+    }
+
+    public bool PayAppointment(Guid appointmentId, Patient patient, PaymentType paymentType)
+    {
+        var paymentManager = new PaymentManager();
+        var result = paymentManager.Checkout(appointmentId,patient, paymentType);
+        return result;
     }
 }

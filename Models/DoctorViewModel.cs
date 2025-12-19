@@ -14,6 +14,7 @@ public class DoctorViewModel
     public string Specialization { get; set; }
     public string Department { get; set; }
     public int YearsOfExperience { get; set; }
+    public decimal Price { get; set; }
 
     public List<ScheduleInput> Schedules { get; set; } = new List<ScheduleInput>();
 }

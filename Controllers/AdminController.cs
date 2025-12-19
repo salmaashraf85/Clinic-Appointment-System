@@ -7,7 +7,6 @@ namespace ClinicAppointment_System.Controllers;
 public class AdminController(ILogger<AdminController> logger) : Controller
 {
     private readonly ILogger<AdminController> _logger = logger;
-
     public IActionResult Index()
     {
         return View();

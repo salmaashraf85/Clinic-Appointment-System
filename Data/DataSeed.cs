@@ -1,5 +1,6 @@
 using ClinicAppointment_System.Models;
 using ClinicAppointment_System.Models.Entittes;
+using ClinicAppointment_System.Models.Payment;
 
 namespace ClinicAppointment_System.Data;
 public abstract class DataSeed
@@ -7,6 +8,8 @@ public abstract class DataSeed
     
         public static List<Doctor> Doctors { get; set; } = new List<Doctor>();
         public static List<Patient> Patients { get; set; } = new List<Patient>();
+        public static List<User> Admins { get; set; } = new List<User>();
+        public static List<Invoice> Invoices { get; set; } = new List<Invoice>();
         public static List<DoctorSchedule> Schedules { get; set; } = new List<DoctorSchedule>();
         private static User? _currentUser;
         private static Roles  _currentUserRole;
@@ -37,6 +40,7 @@ public abstract class DataSeed
             var doctor1 = new Doctor
             {
                 Id = Guid.NewGuid(),
+                Price = 100,
                 DoctorInfo=new User{
                     Id = Guid.NewGuid(),
                     FirstName = "Gregory",
@@ -55,8 +59,9 @@ public abstract class DataSeed
                 },
             };
             var doctor2 = new Doctor
-             {
+            {
                 Id = Guid.NewGuid(),
+                Price = 50,
                 DoctorInfo=new User{
                     Id = Guid.NewGuid(),
                     FirstName = "Ali",
@@ -95,6 +100,17 @@ public abstract class DataSeed
                 Password = "123",
                 Appointments = new List<DoctorSchedule>(),
                 CreatedAt = DateTime.Now
+                
+            };
+            var admin = new User()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "Ahmed",
+                LastName = "Ali",
+                Email = "admin@gmail.com",
+                Password = "123",
+                CreatedAt = DateTime.Now,
+                Role = "Admin",
             };
 
             // --- Seed Appointments ---
@@ -135,13 +151,13 @@ public abstract class DataSeed
             doctor1.DoctorSchedule.Add(app1);
             doctor1.DoctorSchedule.Add(app2);
             doctor2.DoctorSchedule.Add(app3);
-            
 
             Doctors.Add(doctor1);
             Doctors.Add(doctor2);
             
             Patients.Add(patient1);
             Patients.Add(patient2);
+            Admins.Add(admin);
         }
       
 }

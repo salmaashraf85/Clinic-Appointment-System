@@ -36,19 +36,19 @@ public class DoctorController : Controller
                 YearsOfExperience = model.YearsOfExperience 
             };
 
-         var domainSchedules = new List<DoctorSchedule>();
+            var domainSchedules = new List<DoctorSchedule>();
     
-    if (model.Schedules != null)
-    {
-        foreach (var item in model.Schedules)
-        {
-            domainSchedules.Add(new DoctorSchedule
+            if (model.Schedules != null)
             {
-                StartTime = item.StartTime,
-                EndTime = item.EndTime
-            });
-        }
-    }
+                foreach (var item in model.Schedules)
+                {
+                    domainSchedules.Add(new DoctorSchedule
+                    {
+                        StartTime = item.StartTime,
+                        EndTime = item.EndTime
+                    });
+                }
+            }
 
             IdoctorBuilder builder = new DoctorBuilder();
             Doctor newDoctor = builder
@@ -56,18 +56,19 @@ public class DoctorController : Controller
                 .BuildSpecialist(specialistPart)
                 .BuildSchedule(domainSchedules)
                 .Build();
+            newDoctor.Price = model.Price;
 
             DataSeed.Doctors.Add(newDoctor);
 
            if(Role=="Admin"){
-            return RedirectToAction("Index");
-        }
-        else if(Role=="Doctor"){
-            return RedirectToAction("IndexDoctor");
-        }
-        else{
-            return RedirectToAction("Index");
-        }
+            return RedirectToAction("Index"); 
+           }
+            else if(Role=="Doctor"){
+                return RedirectToAction("IndexDoctor");
+            }
+            else{
+                return RedirectToAction("Index");
+            }
         }
 
         return View(model);

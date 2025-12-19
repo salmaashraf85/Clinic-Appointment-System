@@ -12,11 +12,47 @@
      </span>
  </p>
 
-<hr />
+ <hr />
+ 
+<form id="payForm" asp-controller="PatientAppointment" asp-action="Pay" method="post">
+    
+    <input type="hidden" name="appointmentId" value="@Model.AppointmentId" />
+    
+    <input type="hidden" id="selectedPaymentMethod" name="paymentMethod" value="" />
 
-<a asp-controller="PatientAppointment"
-   asp-action="Pay"
-   asp-route-appointmentId="@Model.AppointmentId"
-   class="btn btn-success">
-    Pay Now
-</a>
+    <button type="button" class="btn btn-success" onclick="showChoicePopup()">
+        Pay Now
+    </button>
+</form>
+
+<script>
+    function showChoicePopup() {
+        Swal.fire({
+            title: 'Please select an option',
+            text: "Choose Payment Method?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Wallet',
+            cancelButtonText: 'Cash',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#4eb9ea',
+            reverseButtons: true
+        }).then((result) => {
+            let method = "";
+
+            if (result.isConfirmed) {
+                method = "Wallet";
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                method = "Cash";
+            } else {
+                return; // User cancelled
+            }
+
+            // 1. Set the hidden input value
+            document.getElementById('selectedPaymentMethod').value = method;
+
+            // 2. Submit the form 
+            document.getElementById('payForm').submit();
+        });
+    }
+</script>

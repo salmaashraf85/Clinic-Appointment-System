@@ -21,6 +21,10 @@
         <label>Password</label>
         <input asp-for="Password" type="password" class="form-control" />
     </div>
+    <div class="form-group">
+        <label>Consultation fee</label>
+        <input asp-for="Price" type="number" class="form-control" />
+    </div>
    
 
     <hr />
@@ -87,21 +91,17 @@
 
     // Logic to load existing data from the Model
     document.addEventListener("DOMContentLoaded", function() {
-        @if (Model.Schedules != null && Model.Schedules.Any())
+        @if (Model != null && Model.Schedules.Count != 0)
         {
-        foreach (var item in Model.Schedules)
-        {
-        var start = item.StartTime.ToString("yyyy-MM-ddTHH:mm");
-        var end = item.EndTime.ToString("yyyy-MM-ddTHH:mm");
+            foreach (var item in Model.Schedules)
+            {
+                var start = item.StartTime.ToString("yyyy-MM-ddTHH:mm");
+                var end = item.EndTime.ToString("yyyy-MM-ddTHH:mm");
 
-        @:addScheduleRow("@start", "@end");
+                @:addScheduleRow("@start", "@end");
+            }
         }
-        }
-        else
-        {
-        // Add one empty row if no data exists
-        @:addScheduleRow();
-        }
+
     });
     function removeRow(btn) {
 
