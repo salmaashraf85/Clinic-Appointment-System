@@ -1,0 +1,137 @@
+@model DoctorViewModel
+
+@{
+    ViewData["Title"] = "Edit Doctor";
+    Guid doctorId = ViewBag.DoctorId; 
+}
+
+<h2>Edit Doctor Profile</h2>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+
+<form asp-action="Edit" asp-route-id="@doctorId" method="post">
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Personal Info</h4>
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+             <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>Specialist Info</h4>
+            <div class="form-group">
+                <label asp-for="Specialization"></label>
+                <input asp-for="Specialization" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Department"></label>
+                <input asp-for="Department" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Role"></label>
+                <input asp-for="Role" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="YearsOfExperience">Experience</label>
+                <input asp-for="YearsOfExperience" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <h4>Your Appointments</h4>
+    <table class="table" id="scheduleTable">
+        <thead>
+            <tr>
+                <th>Start Date & Time</th>
+                <th>End Date & Time</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="scheduleBody">
+            @for (int i = 0; i < Model.Schedules.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @* IMPORTANT: Format must be yyyy-MM-ddTHH:mm for datetime-local to work *@
+                        <input type="datetime-local" name="Schedules[@i].StartTime" 
+                               class="form-control" 
+                               value="@Model.Schedules[i].StartTime.ToString("yyyy-MM-ddTHH:mm")" />
+                    </td>
+                    <td>
+                        <input type="datetime-local" name="Schedules[@i].EndTime" 
+                               class="form-control" 
+                               value="@Model.Schedules[i].EndTime.ToString("yyyy-MM-ddTHH:mm")" />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-secondary" onclick="addScheduleRow()">+ Add New Shift</button>
+    
+    <hr />
+    <button type="submit" class="btn btn-warning btn-lg">Update Doctor</button>
+    <a asp-action="Index" class="btn btn-link">Cancel</a>
+</form>
+
+<script>
+    // Initialize index based on existing rows
+    let index = @Model.Schedules.Count;
+
+    function addScheduleRow() {
+        const tableBody = document.getElementById("scheduleBody");
+        
+        const row = `
+            <tr>
+                <td>
+                    <input type="datetime-local" name="Schedules[${index}].StartTime" class="form-control" required />
+                </td>
+                <td>
+                    <input type="datetime-local" name="Schedules[${index}].EndTime" class="form-control" required />
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button>
+                </td>
+            </tr>
+        `;
+
+        tableBody.insertAdjacentHTML('beforeend', row);
+        index++;
+    }
+    
+    function removeRow(btn) {
+        btn.closest('tr').remove();
+        reIndexRows();
+    }
+
+    function reIndexRows() {
+        const rows = document.querySelectorAll("#scheduleBody tr");
+        rows.forEach((row, i) => {
+            row.querySelectorAll("input").forEach(input => {
+                const name = input.getAttribute("name");
+                if (name) {
+                    input.setAttribute("name", name.replace(/\[\d+\]/, `[${i}]`));
+                }
+            });
+        });
+        index = rows.length;
+    }
+</script>

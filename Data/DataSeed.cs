@@ -1,18 +1,17 @@
 using ClinicAppointment_System.Models;
+using ClinicAppointment_System.Models.Entittes;
 
 namespace ClinicAppointment_System.Data;
-
 public abstract class DataSeed
 {
+    
+        public static List<Doctor> Doctors { get; set; } = new List<Doctor>();
+        public static List<Patient> Patients { get; set; } = new List<Patient>();
+        public static List<DoctorSchedule> Schedules { get; set; } = new List<DoctorSchedule>();
+        private static User? _currentUser;
+        private static Roles  _currentUserRole;
 
-    public static List<Doctor> Doctors { get; set; } = new List<Doctor>();
-    public static List<Patient> Patients { get; set; } = new List<Patient>();
-    public static List<User> Admins { get; set; } = new List<User>();
-    public static List<Appointment> Appointments { get; set; } = new List<Appointment>();
-    private static User? _currentUser;
-    private static Roles _currentUserRole;
-
-    public static User? GetCurrentUser()
+        public static User? GetCurrentUser()
         {
             return _currentUser;
         }
@@ -39,38 +38,42 @@ public abstract class DataSeed
             var admin = new User
             {
                 Id = Guid.NewGuid(),
-                FirstName = "Admin",
-                LastName = "System",
-                Email = "admin@clinic.com", // الإيميل للدخول
-                Password = "123",           // الباسورد
-                                            // Role = Roles.Admin, // تأكدي إن كلاس User فيه خاصية Role
-                CreatedAt = DateTime.Now
+                DoctorInfo=new User{
+                    Id = Guid.NewGuid(),
+                    FirstName = "Gregory",
+                    LastName = "House",
+                    Email = "gregory@clinic.com",
+                    Password = "123",
+                    Role = "Doctor",
+                    CreatedAt = DateTime.Now
+                },
+                DoctorSchedule= new List<DoctorSchedule>(),
+                DoctorSpecialist = new DoctorSpecialist
+                {
+                    Specialization = "Psychiatry",
+                    Department = "Psychiatry",
+                    YearsOfExperience = 10,
+                },
             };
-            Admins.Add(admin);
-        }
-        if (Doctors.Any() || Patients.Any()) return;
-        var doctor1 = new Doctor
-        {
-            Id = Guid.NewGuid(),
-            FirstName = "Gregory",
-            LastName = "House",
-            Email = "house@clinic.com",
-                Password = "123", 
-                Specialties = new List<string> { "Diagnostician", "Nephrology" },
-                Appointments = new List<Appointment>(),
-                CreatedAt = DateTime.Now
-            };
-
-        var doctor2 = new Doctor
-        {
-            Id = Guid.NewGuid(),
-            FirstName = "Shaun",
-            LastName = "Murphy",
-            Email = "shaun@clinic.com",
-                Password = "123",
-                Specialties = new List<string> { "Surgery", "Autism Specialist" },
-                Appointments = new List<Appointment>(),
-                CreatedAt = DateTime.Now
+            var doctor2 = new Doctor
+             {
+                Id = Guid.NewGuid(),
+                DoctorInfo=new User{
+                    Id = Guid.NewGuid(),
+                    FirstName = "Ali",
+                    LastName = "HAliouse",
+                    Email = "Ali@clinic.com",
+                    Password = "123",
+                    Role = "Doctor",
+                    CreatedAt = DateTime.Now
+                },
+                DoctorSchedule= new List<DoctorSchedule>(),
+                DoctorSpecialist = new DoctorSpecialist
+                {
+                    Specialization = "Psychiatry",
+                    Department = "Psychiatry",
+                    YearsOfExperience = 10,
+                },
             };
 
         var patient1 = new Patient
@@ -80,7 +83,7 @@ public abstract class DataSeed
             LastName = "Doe",
                 Email = "john@gmail.com",
                 Password = "123",
-                Appointments = new List<Appointment>(), 
+                Appointments = new List<DoctorSchedule>(), 
                 CreatedAt = DateTime.Now
             };
 
@@ -91,59 +94,53 @@ public abstract class DataSeed
             LastName = "Connor",
                 Email = "sarah@gmail.com",
                 Password = "123",
-                Appointments = new List<Appointment>(),
+                Appointments = new List<DoctorSchedule>(),
                 CreatedAt = DateTime.Now
             };
 
             // --- Seed Appointments ---
             // Creating slots for Doctor 1 (Gregory House)
-            var app1 = new Appointment
+            var app1 = new DoctorSchedule
             {
                 Id = Guid.NewGuid(),
                 DoctorId = doctor1.Id,
-                Doctor = doctor1,
-                StartTime = DateTime.Now.AddDays(1).Date.AddHours(9), 
-                EndTime = DateTime.Now.AddDays(1).Date.AddHours(10),  
-                IsBooked = false
+                StartTime = new DateTime(2025, 12, 19, 14, 30, 0),
+                EndTime = new  DateTime(2025, 12, 19, 15, 30, 0),
             };
 
-            var app2 = new Appointment
+            var app2 = new DoctorSchedule
             {
                 Id = Guid.NewGuid(),
                 DoctorId = doctor1.Id,
-                Doctor = doctor1,
-                StartTime = DateTime.Now.AddDays(1).Date.AddHours(10), 
-                EndTime = DateTime.Now.AddDays(1).Date.AddHours(11),
-                IsBooked = true // Simulating a booked slot
+                StartTime = new DateTime(2025, 12, 25, 14, 30, 0), 
+                EndTime = new  DateTime(2025, 12, 25, 15,30,0), 
             };
 
-            var app3 = new Appointment
+            var app3 = new DoctorSchedule
             {
                 Id = Guid.NewGuid(),
                 DoctorId = doctor2.Id,
-                Doctor = doctor2,
-                StartTime = DateTime.Now.AddDays(2).Date.AddHours(14), 
-                EndTime = DateTime.Now.AddDays(2).Date.AddHours(15),
-                IsBooked = false
+                StartTime = new DateTime(2025, 12, 20, 14, 30, 0),
+                EndTime = new  DateTime(2025, 12, 20, 15, 30, 0), 
             };
 
             // --- Linking Data ---
+            patient1.Appointments.Add(app1);
+            app1.IsAavailable = false;
+            app1.AppointmentSate = AppointmentSate.Pending;
+            app1.PatientId=patient1.Id;
+            Schedules.Add(app1);
+            Schedules.Add(app2);
+            Schedules.Add(app3);
+
+            doctor1.DoctorSchedule.Add(app1);
+            doctor1.DoctorSchedule.Add(app2);
+            doctor2.DoctorSchedule.Add(app3);
             
-            Appointments.Add(app1);
-            Appointments.Add(app2);
-            Appointments.Add(app3);
-
-            doctor1.Appointments.Add(app1);
-            doctor1.Appointments.Add(app2);
-            doctor2.Appointments.Add(app3);
-
-            if (app2.IsBooked)
-            {
-                patient1.Appointments.Add(app2);
-            }
 
             Doctors.Add(doctor1);
             Doctors.Add(doctor2);
+            
             Patients.Add(patient1);
             Patients.Add(patient2);
         }

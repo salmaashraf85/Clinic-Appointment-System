@@ -1,0 +1,85 @@
+@model ClinicAppointment_System.Models.Doctor
+
+@{
+    ViewData["Title"] = "Doctor Profile";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>@Model.DoctorInfo.FirstName @Model.DoctorInfo.LastName</h3>
+                    <p class="mb-0">@Model.DoctorInfo.Role</p>
+                </div>
+
+                <div class="card-body">
+
+                        <div class="col-md-8">
+                            <h4 class="mb-3">Contact Information</h4>
+                            
+                            <dl class="row">
+                                <dt class="col-sm-4">Email:</dt>
+                                <dd class="col-sm-8">@Model.DoctorInfo.Email</dd>
+
+                               
+                            </dl>
+                            <dl class="row">
+                                <dt class="col-sm-4">FirstName:</dt>
+                                <dd class="col-sm-8">@Model.DoctorInfo.FirstName</dd>
+                            </dl>
+                            <dl class="row">
+                                <dt class="col-sm-4">Role:</dt>
+                                <dd class="col-sm-8">@Model.DoctorInfo.Role</dd>
+                            </dl>
+                            <dl class="row">
+                                <dt class="col-sm-4">Specialization:</dt>
+                                <dd class="col-sm-8">@Model.DoctorSpecialist.Specialization</dd>
+                            </dl>
+                            <dl class="row">
+                                <dt class="col-sm-4">YearsOfExperience:</dt>
+                                <dd class="col-sm-8">@Model.DoctorSpecialist.YearsOfExperience</dd>
+                            </dl>
+                            <dl class="row">
+                                <dt class="col-sm-4">Department:</dt>
+                                <dd class="col-sm-8">@Model.DoctorSpecialist.Department</dd>
+                            </dl>
+
+                            <hr />
+
+                            <h4 class="mb-3">Working Schedule</h4>
+                            @if (Model.DoctorSchedule != null && Model.DoctorSchedule.Count > 0)
+                            {
+                                <div class="d-flex flex-wrap">
+                                    @foreach (var day in Model.DoctorSchedule)
+                                    {
+                                        <div class="p-2 mr-2 mb-2 bg-light border rounded text-center">
+                                            <strong>@day.Day</strong>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="text-muted">No schedule set.</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer text-center">
+                    <a asp-action="Edit" asp-route-id="@Model.DoctorInfo.Id" class="btn btn-warning">
+                        Edit Profile
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@Model.DoctorInfo.Id" class="btn btn-danger">
+                        Delete Profile
+                    </a>
+                    <a asp-action="IndexDoctor"  class="btn btn-secondary">
+                        Back to List
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
