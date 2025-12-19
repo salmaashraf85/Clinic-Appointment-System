@@ -1,0 +1,34 @@
+﻿@model List<AppointmentViewModel>
+
+<h2>Available Appointments</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Doctor Name</th>
+        <th>Day</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.DoctorName</td>
+            <td>@item.Day</td>
+            <td>@item.StartTime.ToString("hh:mm tt")</td>
+            <td>@item.EndTime.ToString("hh:mm tt")</td>
+            <td>
+                <form asp-action="Book" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="appointmentId" value="@item.AppointmentId" />
+                    <button class="btn btn-primary">Book</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

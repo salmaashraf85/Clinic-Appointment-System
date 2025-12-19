@@ -1,4 +1,5 @@
 using ClinicAppointment_System.Data;
+using ClinicAppointment_System.Models;
 using ClinicAppointment_System.Models.Commands;
 using ClinicAppointment_System.Models.Schedule;
 using Microsoft.EntityFrameworkCore;
@@ -33,4 +34,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 DataSeed.Initialize();
+AppointmentScheduler.Instance.LoadFromSeed();
 app.Run();

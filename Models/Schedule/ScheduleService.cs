@@ -115,6 +115,5 @@ public class ScheduleService: IScheduleService
     {
         DataSeed.Schedules.Add(app);
         DataSeed.Doctors.First(d=>d.DoctorInfo.Id == app.DoctorId).DoctorSchedule.Add(app);
-        
     }
 }
