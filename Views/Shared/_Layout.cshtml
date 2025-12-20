@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -19,37 +20,48 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home"
-                                asp-action="Register">Register</a>
-                        </li>
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+
+                @if (Context.Session.IsAvailable&&Context.Session.GetString("UserRole") == "Admin" || Context.Session.GetString("UserRole") == "Doctor")
+                {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="GetAll">Appointment</a>
                     </li>
-                    
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="Index">Doctors</a>
+                    </li>
+                    <li class="nav-item ms-auto">
+                        <a class="nav-link text-danger" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                    </li>
+                }
+    
+                else if (Context.Session.IsAvailable&&Context.Session.GetString("UserRole") == "Patient")
+                {
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="PatientAppointment" asp-action="Index">Book</a>
                     </li>
-                    
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="PatientAppointment" asp-action="MyAppointments">MyAppointments</a>
                     </li>
-                     <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Doctor"
-                                asp-action="Index">Doctors</a>
-                        </li>
-
-                </ul>
+                    <li class="nav-item ms-auto">
+                        <a class="nav-link text-danger" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                    </li>
+                }
+    
+                else 
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Register">Register</a>
+                    </li>
+                }
+            </ul>
             </div>
-        </div>
     </nav>
 </header>
 <div class="container">

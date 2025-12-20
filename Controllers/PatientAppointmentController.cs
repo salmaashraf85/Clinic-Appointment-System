@@ -121,7 +121,7 @@ public class PatientAppointmentController : Controller
 
         if (patient == null)
             return Unauthorized();
-
+        ViewBag.Wallet = patient.Wallet;
         var appointments = AppointmentScheduler.Instance
             .GetAll()
             .Where(a => a.PatientId == patient.Id)
@@ -130,4 +130,19 @@ public class PatientAppointmentController : Controller
         return View(appointments);
     }
 
+    [HttpPost]
+    public IActionResult AddBalance(decimal amount)
+    {
+        var currentUser = DataSeed.GetCurrentUser();
+        var patient = DataSeed.Patients
+            .FirstOrDefault(p => p.Email == currentUser.Email);
+
+        if (patient == null) return Unauthorized();
+
+        patient.Wallet += amount;
+    
+        TempData["Success"] = "Balance added successfully!";
+
+        return RedirectToAction("MyAppointments");
+    }
 }

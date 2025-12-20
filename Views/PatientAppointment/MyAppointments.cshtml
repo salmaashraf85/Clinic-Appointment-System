@@ -1,57 +1,127 @@
-﻿@model List<ClinicAppointment_System.Models.Entittes.DoctorSchedule>
+﻿@using Microsoft.AspNetCore.Http
+@model List<ClinicAppointment_System.Models.Entittes.DoctorSchedule>
 
-@* 1. Alert Message Section *@
+@{
+    ViewData["Title"] = "My Appointments";
+    // قراءة الرصيد من السيشن، وإذا لم يوجد نعرض 0
+    var walletBalance = Context.Session.GetString("Wallet") ?? "0";
+}
+
+@* --- 1. Alert Messages Section --- *@
 @if (TempData["Alert"] != null)
 {
-    <div class="alert alert-@TempData["Alert"] alert-dismissible fade show">
+    <div class="alert alert-danger alert-dismissible fade show">
         @TempData["Alert"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-     
 }
 @if (TempData["Success"] != null)
 {
-    <div class="alert-success alert-@TempData["Success"] alert-dismissible fade show" >
+    <div class="alert alert-success alert-dismissible fade show">
         @TempData["Success"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div> 
+    </div>
 }
-<h2>My Appointments</h2>
 
+@* --- 2. Header & Wallet Section --- *@
+<div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <h2>My Appointments</h2>
+    
+    <div class="card p-2 shadow-sm border-primary">
+        <div class="d-flex align-items-center gap-3">
+            <div>
+                <small class="text-muted d-block" style="font-size: 0.8rem;">Wallet Balance</small>
+                
+                @* هنا التعديل: قراءة القيمة من الـ ViewBag *@
+                <h5 class="text-success fw-bold mb-0">$@(ViewBag.Wallet ?? 0)</h5>
+                
+            </div>
+            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addBalanceModal">
+                <i class="bi bi-plus-lg"></i> Add Balance
+            </button>
+        </div>
+    </div>
+</div>
+
+@* --- 3. Appointments Table Section --- *@
 @if (!Model.Any())
 {
-    <p>You have no appointments yet.</p>
+    <div class="alert alert-info text-center">
+        You have no appointments yet.
+    </div>
 }
 else
 {
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Doctor</th>
-            <th>Day</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Status</th>
-        </tr>
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>Doctor</th>
+                <th>Day</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Status</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model)
-        {
-            var doctor = ClinicAppointment_System.Data.DataSeed.Doctors
-                .First(d => d.Id == item.DoctorId);
+            @foreach (var item in Model)
+            {
+                var doctor = ClinicAppointment_System.Data.DataSeed.Doctors
+                             .FirstOrDefault(d => d.Id == item.DoctorId);
 
-            <tr>
-                <td>@doctor.DoctorInfo.FirstName @doctor.DoctorInfo.LastName</td>
-                <td>@item.StartTime.DayOfWeek</td>
-                <td>@item.StartTime</td>
-                <td>@item.EndTime</td>
-                <td>
-                    <span class="badge bg-warning text-dark">
-                        @item.AppointmentSate
-                    </span>
-                </td>
-            </tr>
-        }
+                <tr>
+                    <td>
+                        @if (doctor != null)
+                        {
+                            <span class="fw-bold text-primary">Dr. @doctor.DoctorInfo.FirstName @doctor.DoctorInfo.LastName</span>
+                        }
+                    </td>
+                    <td>@item.StartTime.DayOfWeek</td>
+                    <td>@item.StartTime.ToShortTimeString()</td>
+                    <td>@item.EndTime.ToShortTimeString()</td>
+                    <td>
+                        @if(item.AppointmentSate.ToString() == "Pending")
+                        {
+                            <span class="badge bg-warning text-dark">@item.AppointmentSate</span>
+                        }
+                        else if (item.AppointmentSate.ToString() == "Confirmed") // مثال لو عندك حالات تانية
+                        {
+                             <span class="badge bg-success">@item.AppointmentSate</span>
+                        }
+                        else
+                        {
+                             <span class="badge bg-secondary">@item.AppointmentSate</span>
+                        }
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 }
+
+@* --- 4. Add Balance Modal (Hidden by default) --- *@
+<div class="modal fade" id="addBalanceModal" tabindex="-1" aria-labelledby="addBalanceLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-controller="PatientAppointment" asp-action="AddBalance" method="post">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="addBalanceLabel">Add Funds to Wallet</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3 text-center">
+                        <i class="bi bi-wallet2 text-success" style="font-size: 3rem;"></i>
+                        <p class="text-muted mt-2">Enter the amount you want to add to your balance.</p>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="number" name="amount" class="form-control" id="amountInput" placeholder="Amount" min="1" step="0.01" required>
+                        <label for="amountInput">Amount ($)</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Confirm Payment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

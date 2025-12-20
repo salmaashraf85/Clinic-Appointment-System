@@ -90,7 +90,8 @@ public abstract class DataSeed
                 Password = "123",
                 Appointments = new List<DoctorSchedule>(), 
                 CreatedAt = DateTime.Now,
-                Wallet = 500
+                Wallet = 500,
+                Role = "Patient"
             };
 
             var patient2 = new Patient
@@ -102,7 +103,9 @@ public abstract class DataSeed
                 Password = "123",
                 Appointments = new List<DoctorSchedule>(),
                 CreatedAt = DateTime.Now,
-                Wallet = 1000
+                Wallet = 1000,
+                Role = "Patient"
+
                 
             };
             var admin = new User()
@@ -143,10 +146,6 @@ public abstract class DataSeed
             };
 
             // --- Linking Data ---
-            patient1.Appointments.Add(app1);
-            app1.IsAavailable = false;
-            app1.AppointmentSate = AppointmentSate.Pending;
-            app1.PatientId=patient1.Id;
             Schedules.Add(app1);
             Schedules.Add(app2);
             Schedules.Add(app3);

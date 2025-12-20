@@ -35,22 +35,30 @@ public class HomeController : Controller
         }
 
         var doctor = DataSeed.Doctors.FirstOrDefault(d => d.Email == model.Email && d.Password == model.Password);
+        
         if (doctor != null)
         {
             DataSeed.SetCurrentUser(doctor);
+            HttpContext.Session.SetString("UserRole", doctor.Role);
+
             return RedirectToAction("Index");
+            
         }
 
         var patient = DataSeed.Patients.FirstOrDefault(p => p.Email == model.Email && p.Password == model.Password);
         if (patient != null)
         {
             DataSeed.SetCurrentUser(patient);
+            HttpContext.Session.SetString("UserRole", patient.Role);
+
             return RedirectToAction("Index");
         }
         var admin = DataSeed.Admins.FirstOrDefault(p => p.Email == model.Email && p.Password == model.Password);
         if (admin != null)
         {
             DataSeed.SetCurrentUser(admin);
+            HttpContext.Session.SetString("UserRole", admin.Role);
+
             return RedirectToAction("Index");
         }
         ViewBag.Error = "Invalid Email or Password";
@@ -88,16 +96,12 @@ public class HomeController : Controller
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
-                Password = model.Password
+                Password = model.Password,
+                Role = model.Role,
             };
 
             User newUser = factoryWrapper.RegisterUser(initialData);
-
-            // if (selectedRole == Roles.Admin)
-            // {
-            //     DataSeed.Admins.Add(newUser);
-            // }
-            // else 
+            
             if (newUser is Doctor doctorEntity)
             {
                 if (!string.IsNullOrEmpty(model.Specialization))
@@ -112,6 +116,7 @@ public class HomeController : Controller
             }
 
             DataSeed.SetCurrentUser(newUser);
+            HttpContext.Session.SetString("UserRole", newUser.Role);
 
             return RedirectToAction("Index");
         }
@@ -123,6 +128,7 @@ public class HomeController : Controller
     }
     public IActionResult Logout()
     {
+        HttpContext.Session.Remove("UserRole");
         DataSeed.Logout();
         return RedirectToAction("Login");
     }

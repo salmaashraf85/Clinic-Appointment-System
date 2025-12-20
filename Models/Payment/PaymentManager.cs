@@ -20,11 +20,11 @@ public class PaymentManager
         Invoice invoice = CreateInvoice(appointmentId);
         if (paymentType == PaymentType.Cash)
         {
-            _strategy = new WalletPaymentTypeStrategy();
+            _strategy = new CashPaymentTypeStrategy();
         }
         else if(paymentType == PaymentType.Wallet)
         {
-            _strategy = new CashPaymentTypeStrategy(); 
+            _strategy = new WalletPaymentTypeStrategy(); 
             
         }
         bool success = _strategy.ProcessPayment(invoice, patient);

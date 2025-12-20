@@ -13,7 +13,9 @@ builder.Services.AddControllersWithViews();
     // options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IScheduleService, ScheduleService>();
-
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,7 +28,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();
